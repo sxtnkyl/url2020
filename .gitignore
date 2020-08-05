@@ -1,0 +1,5 @@
+### test to leave out server
+### make relative paths for single gitignore file
+/server
+# should not have test
+/client/test
