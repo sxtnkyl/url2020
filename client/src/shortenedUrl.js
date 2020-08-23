@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   responseComponent,
@@ -9,17 +9,17 @@ import {
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 const ShortenedUrl = () => {
-  const history = useHistory();
+  const location = useLocation();
   //svg from fontawesome repo
   //https://github.com/encharm/Font-Awesome-SVG-PNG/blob/master/black/svg/clone.svg?short_path=20b6998
-  let { longUrl, path } = history.location.state;
+  let { longUrl, shortUrl } = location.state;
 
   const [copy, setCopy] = useState({
-    value: path,
+    value: shortUrl,
     copied: false,
   });
 
-  let diff = longUrl.length - path.length;
+  let diff = longUrl.length - shortUrl.length;
   let charStr = "Wow! Your url is now " + diff + " characters shorter!";
 
   const UrlComponent = (
@@ -55,9 +55,9 @@ const ShortenedUrl = () => {
           </motion.div>
         </CopyToClipboard>
       </span>
-      <a href={path} target="_blank" rel="noopener noreferrer">
+      <a href={shortUrl} target="_blank" rel="noopener noreferrer">
         <div className="p-2 text-center md:pl-20 pr-4 rounded-md text-base md:text-3xl text-blue-900 bg-blue-200 w-full">
-          {path}
+          {shortUrl}
         </div>
       </a>
     </motion.div>

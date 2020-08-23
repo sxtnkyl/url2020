@@ -40,7 +40,7 @@ router.post("/shorten", async (req, res) => {
           console.log(err);
         } else {
           //keep the collection cheap! reset on too big
-          console.log("Estimated Count :", count);
+          // console.log("Estimated Count :", count);
           if (count > 20) Url.collection.drop();
         }
       });
@@ -51,8 +51,8 @@ router.post("/shorten", async (req, res) => {
       }
       //if not found in DB, need to make entry- new shortened url and new mongoose schema
       else {
-        let shortUrl = urlHasher(longUrl);
-        let path = baseUrl + "/" + shortUrl;
+        let path = urlHasher(longUrl);
+        let shortUrl = baseUrl + "/" + path;
         //create new instance
         const newurl = new Url({
           path,

@@ -1,0 +1,13 @@
+stack:
+
+*route53- A tag to s3 bucket
+
+*s3 bucket-static host build files
+
+*apiGateway- proxy for s3 to lambdas
+
+*lambda- one for post, one for redirect
+//pass lambda dependencies into layer- found in serverMongoDB folder
+
+*dynamo- hold items with longUrl/shortUrl/path
+

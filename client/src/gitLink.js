@@ -37,7 +37,7 @@ const GitLink = () => {
   );
   return (
     <a
-      href="githubPage"
+      href="https://github.com/sxtnkyl/url2020"
       target="_blank"
       rel="noopener noreferrer"
       className="cursor-pointer absolute top-0 right-0 p-4 flex items-center outline-none"

@@ -4,6 +4,7 @@ const db = process.env.MONGOURI;
 
 //mongoose return Promise -> use async/await
 const linkDB = async () => {
+  console.log("trying to connect to mongo");
   try {
     //connect for one db
     await mongoose.connect(db, {

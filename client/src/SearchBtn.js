@@ -24,17 +24,18 @@ const SearchBtn = () => {
   useEffect(() => {
     if (state) setUrl(state.longUrl);
   }, [state]);
+
   const handleInputChange = (event) => {
     setUrl(event.target.value);
   };
 
   const checkLength = (res) => {
     let { longUrl } = res.data;
-    let base = "https://sxtnkyl.github.io/url2020";
+    let base = "http://hiropes.info/123456";
     if (longUrl.length <= base.length) setTooShort(true);
     else {
       setTooShort(false);
-      history.push(res.data.shortUrl, { ...res.data });
+      history.push(res.data.path, { ...res.data });
     }
   };
 
@@ -45,7 +46,10 @@ const SearchBtn = () => {
       await Axios({
         method: "post",
         headers: { "Content-Type": "application/json" },
-        url: "http://localhost:5001/url/shorten",
+        //nodeMongo method
+        // url: "http://localhost:5001/url/shorten",
+        // AWS method- set cors origin in apiGateway
+        url: "https://sfcdy8v1ha.execute-api.us-east-1.amazonaws.com/beta",
         data: {
           longUrl: longUrl,
         },
