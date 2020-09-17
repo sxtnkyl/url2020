@@ -1,10 +1,12 @@
 stack:
 
-*route53- A tag to s3 bucket
+*route53- A tag CloudFront
+
+*CF- redirect to https, route to s3 or APIGW
 
 *s3 bucket-static host build files
 
-*apiGateway- proxy for s3 to lambdas
+*APIGW- proxy for lambdas
 
 *lambda- one for post, one for redirect
 //pass lambda dependencies into layer- found in serverMongoDB folder
