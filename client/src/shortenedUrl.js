@@ -39,7 +39,7 @@ const ShortenedUrl = () => {
             whileHover="hover"
             whileTap="tap"
             id="copyButton"
-            type="submit"
+            // type="submit"
             className="border md:border-2 border-current rounded-md text-blue-700 focus:outline-none"
           >
             <svg

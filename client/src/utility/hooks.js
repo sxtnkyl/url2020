@@ -1,46 +1,41 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useEffect, useState, useCallback } from "react";
 /////////////////////////////////////////////////////
-const useFocus = (ref, defaultState = false) => {
-  const [state, setState] = useState(defaultState);
 
+//https://usehooks.com/useAsync/
+const useAsync = (asyncFunction, immediate = true) => {
+  const [status, setStatus] = useState("idle");
+  const [value, setValue] = useState(null);
+  const [error, setError] = useState(null);
+
+  // The execute function wraps asyncFunction and
+  // handles setting state for pending, value, and error.
+  // useCallback ensures the below useEffect is not called
+  // on every render, but only if asyncFunction changes.
+  const execute = useCallback(() => {
+    setStatus("pending");
+    setValue(null);
+    setError(null);
+
+    return asyncFunction()
+      .then((response) => {
+        setValue(response);
+        setStatus("success");
+      })
+      .catch((error) => {
+        setError(error);
+        setStatus("error");
+      });
+  }, [asyncFunction]);
+
+  // Call execute if we want to fire it right away.
+  // Otherwise execute can be called later, such as
+  // in an onClick handler.
   useEffect(() => {
-    const onFocus = () => setState(true);
-    const onBlur = () => setState(false);
-    ref.current.addEventListener("focus", onFocus);
-    ref.current.addEventListener("blur", onBlur);
+    if (immediate) {
+      execute();
+    }
+  }, [execute, immediate]);
 
-    return () => {
-      ref.current.removeEventListener("focus", onFocus);
-      ref.current.removeEventListener("blur", onBlur);
-    };
-  }, []);
-
-  return state;
+  return { execute, status, value, error };
 };
-
-// function copyToClipboard(text) {
-//   if (window.clipboardData && window.clipboardData.setData) {
-//     // IE specific code path to prevent textarea being shown while dialog is visible.
-//     return clipboardData.setData("Text", text);
-//   } else if (
-//     document.queryCommandSupported &&
-//     document.queryCommandSupported("copy")
-//   ) {
-//     var textarea = document.createElement("textarea");
-//     textarea.textContent = text;
-//     textarea.style.position = "fixed"; // Prevent scrolling to bottom of page in MS Edge.
-//     document.body.appendChild(textarea);
-//     textarea.select();
-//     try {
-//       return document.execCommand("copy"); // Security exception may be thrown by some browsers.
-//     } catch (ex) {
-//       console.warn("Copy to clipboard failed.", ex);
-//       return false;
-//     } finally {
-//       document.body.removeChild(textarea);
-//     }
-//   }
-// }
-
-// export { copyToClipboard };
+export default useAsync;

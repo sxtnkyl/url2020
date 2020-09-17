@@ -59,12 +59,6 @@ const scaleInHoverTap = {
   tap: { scale: 0.9 },
 };
 
-//scaleHoverTap
-const singleListItemShift = {
-  whileHover: { scale: 1.2, originX: 0, color: "#FFFFFF" },
-  transition: { type: "spring", stiffness: 300 },
-};
-
 //inset shadow
 const restartButton = {
   hover: {
@@ -80,6 +74,19 @@ const iconSpin = {
   visible: {
     rotate: 0,
     transition: { duration: 1 },
+  },
+};
+
+const loading = {
+  animate: {
+    scale: [1, 0.8, 0.8, 1, 1],
+    rotate: [0, 0, 360, 360, 0],
+    transition: {
+      duration: 1.5,
+      ease: "easeInOut",
+      loop: Infinity,
+      repeatDelay: 0.5,
+    },
   },
 };
 
@@ -107,4 +114,5 @@ export {
   restartButton,
   iconSpin,
   pathDraw,
+  loading,
 };

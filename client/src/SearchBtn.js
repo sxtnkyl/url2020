@@ -3,7 +3,13 @@ import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 
-import { slideInFromTop, scaleIn, scaleHoverTap } from "./utility/animations";
+import useAsync from "./utility/hooks";
+import {
+  slideInFromTop,
+  scaleIn,
+  scaleHoverTap,
+  loading,
+} from "./utility/animations";
 
 const SearchBtn = () => {
   const history = useHistory();
@@ -58,11 +64,24 @@ const SearchBtn = () => {
       console.log(error);
     }
   };
+  const { execute, status, value, error } = useAsync(sendLongUrl, false);
 
   const restartSearch = () => {
     setUrl("");
     history.push("/", null);
   };
+
+  const searchSVG = (
+    <svg
+      fill="none"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      viewBox="0 0 24 24"
+      className="stroke-current p-1 md:p-2 w-5 h-5 md:w-10 md:h-10 stroke-2"
+    >
+      <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    </svg>
+  );
 
   const labelComponent = (
     <motion.div
@@ -90,24 +109,18 @@ const SearchBtn = () => {
     >
       <span className="absolute inset-y-0 left-0 flex items-center px-2 md:px-4 outline-none">
         <motion.button
-          variants={scaleHoverTap}
-          initial="hidden"
-          animate="visible"
-          whileHover="hover"
-          onClick={sendLongUrl}
+          variants={status !== "pending" ? scaleHoverTap : loading}
+          initial={status !== "pending" && "hidden"}
+          whileHover={status !== "pending" && "hover"}
+          animate={status === "pending" ? "animate" : "visible"}
+          transition={status === "pending" && "transition"}
+          onClick={execute}
+          disabled={status === "pending"}
           type="submit"
           id="searchButton"
           className="border md:border-2 border-current rounded-md text-blue-700 focus:outline-none"
         >
-          <svg
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            viewBox="0 0 24 24"
-            className="stroke-current p-1 md:p-2 w-5 h-5 md:w-10 md:h-10 stroke-2"
-          >
-            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-          </svg>
+          {searchSVG}
         </motion.button>
       </span>
       <input
