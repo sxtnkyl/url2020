@@ -1,0 +1,21 @@
+stack:
+
+*Route53- A record CloudFront, CNAME to ACM cert
+
+*Amazon Certificate Manager- SSL/TLS certificate 
+
+*CloudFront- 2 origins, S3 and APIGW
+
+*IAM- CORS policies, roles, and trust relationships
+
+*S3- bucket to host static web page with build files
+
+*API GateWay- http api proxy for lambdas
+
+*Lambda- 2 serverless functions (db write and shortUrl redirect) written with node.js. 
+//pass lambda dependencies into layer- found in serverMongoDB folder
+//integrate with DynamoDB using aws-adk and dynamoDB api
+
+*DynamoDB- read/write items with longUrl/shortUrl/path
+
+*CloudWatch- logging for debugging services/rate limit alarm to stay cheap

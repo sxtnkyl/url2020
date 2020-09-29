@@ -3,13 +3,7 @@ import Axios from "axios";
 import { useHistory } from "react-router-dom";
 import { motion, AnimateSharedLayout, AnimatePresence } from "framer-motion";
 
-import useAsync from "./utility/hooks";
-import {
-  slideInFromTop,
-  scaleIn,
-  scaleHoverTap,
-  loading,
-} from "./utility/animations";
+import { flyIn, scaleIn, scaleHoverTap, loading } from "./utility/animations";
 
 const SearchBtn = () => {
   const history = useHistory();
@@ -31,13 +25,15 @@ const SearchBtn = () => {
     if (state) setUrl(state.longUrl);
   }, [state]);
 
+  const [status, setStatus] = useState("idle");
+
   const handleInputChange = (event) => {
     setUrl(event.target.value);
   };
 
   const checkLength = (res) => {
     let { longUrl } = res.data;
-    let base = "http://hiropes.info/123456";
+    let base = "hiropes.info/api/123456";
     if (longUrl.length <= base.length) setTooShort(true);
     else {
       setTooShort(false);
@@ -46,6 +42,7 @@ const SearchBtn = () => {
   };
 
   const sendLongUrl = async (e) => {
+    setStatus("pending");
     //prevent page refresh on form submit
     e.preventDefault();
     try {
@@ -54,23 +51,39 @@ const SearchBtn = () => {
         headers: { "Content-Type": "application/json" },
         //nodeMongo method
         // url: "http://localhost:5001/url/shorten",
-        // AWS method- set cors origin in apiGateway
-        url: "https://sfcdy8v1ha.execute-api.us-east-1.amazonaws.com/beta",
+        url: "https://hiropes.info/api/send",
         data: {
           longUrl: longUrl,
         },
-      }).then((res) => checkLength(res));
+      }).then((res) => {
+        setStatus("success");
+        checkLength(res);
+      });
     } catch (error) {
       console.log(error);
+      setStatus("error");
     }
   };
-  const { execute, status, value, error } = useAsync(sendLongUrl, false);
 
   const restartSearch = () => {
     setUrl("");
+    setStatus("idle");
     history.push("/", null);
   };
 
+  const searchingSVG = (
+    <motion.div variants={loading} animate="animate">
+      <svg
+        fill="none"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        viewBox="0 0 24 24"
+        className="stroke-current p-1 md:p-2 w-5 h-5 md:w-10 md:h-10 stroke-2"
+      >
+        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </motion.div>
+  );
   const searchSVG = (
     <svg
       fill="none"
@@ -109,18 +122,18 @@ const SearchBtn = () => {
     >
       <span className="absolute inset-y-0 left-0 flex items-center px-2 md:px-4 outline-none">
         <motion.button
-          variants={status !== "pending" ? scaleHoverTap : loading}
-          initial={status !== "pending" && "hidden"}
-          whileHover={status !== "pending" && "hover"}
-          animate={status === "pending" ? "animate" : "visible"}
-          transition={status === "pending" && "transition"}
-          onClick={execute}
+          variants={scaleHoverTap}
+          initial="hidden"
+          animate="visible"
+          whileHover="hover"
+          whileTap="tap"
           disabled={status === "pending"}
+          onClick={sendLongUrl}
           type="submit"
           id="searchButton"
           className="border md:border-2 border-current rounded-md text-blue-700 focus:outline-none"
         >
-          {searchSVG}
+          {status === "pending" ? searchingSVG : searchSVG}
         </motion.button>
       </span>
       <input
@@ -150,7 +163,7 @@ const SearchBtn = () => {
     <motion.form
       layout
       className={position}
-      variants={slideInFromTop}
+      variants={flyIn}
       initial="hidden"
       animate="visible"
     >

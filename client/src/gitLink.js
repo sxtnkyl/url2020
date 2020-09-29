@@ -11,7 +11,7 @@ const GitLink = () => {
       initial="hidden"
       animate="visible"
       xmlns="http://www.w3.org/2000/svg"
-      className="icon icon-tabler icon-tabler-brand-github"
+      className="icon icon-tabler icon-tabler-brand-github rounded-md"
       width="44"
       height="44"
       viewBox="0 0 24 24"
