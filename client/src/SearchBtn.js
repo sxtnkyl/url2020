@@ -37,7 +37,7 @@ const SearchBtn = () => {
     if (longUrl.length <= base.length) setTooShort(true);
     else {
       setTooShort(false);
-      history.push(res.data.path, { ...res.data });
+      history.push(`api/${res.data.path}`, { ...res.data });
     }
   };
 
@@ -78,8 +78,7 @@ const SearchBtn = () => {
         strokeLinecap="round"
         strokeLinejoin="round"
         viewBox="0 0 24 24"
-        className="stroke-current p-1 md:p-2 w-5 h-5 md:w-10 md:h-10 stroke-2"
-      >
+        className="stroke-current p-1 md:p-2 w-5 h-5 md:w-10 md:h-10 stroke-2">
         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
       </svg>
     </motion.div>
@@ -90,8 +89,7 @@ const SearchBtn = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
       viewBox="0 0 24 24"
-      className="stroke-current p-1 md:p-2 w-5 h-5 md:w-10 md:h-10 stroke-2"
-    >
+      className="stroke-current p-1 md:p-2 w-5 h-5 md:w-10 md:h-10 stroke-2">
       <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
     </svg>
   );
@@ -100,16 +98,14 @@ const SearchBtn = () => {
     <motion.div
       layout
       className="flex justify-between py-4 text-blue-900 text-xs md:text-lg font-sans font-semibold"
-      variants={scaleIn}
-    >
+      variants={scaleIn}>
       <label className="text-base md:text-2xl">Need a shorter Url?</label>
       <motion.label
         variants={scaleHoverTap}
         whileHover="hover"
         whileTap="tap"
         className="border border-1 rounded-md bg-blue-200 border-blue-900 cursor-pointer uppercase px-2 leading-loose"
-        onClick={restartSearch}
-      >
+        onClick={restartSearch}>
         restart
       </motion.label>
     </motion.div>
@@ -118,8 +114,7 @@ const SearchBtn = () => {
     <motion.div
       layout
       className="relative rounded-md w-full"
-      variants={scaleIn}
-    >
+      variants={scaleIn}>
       <span className="absolute inset-y-0 left-0 flex items-center px-2 md:px-4 outline-none">
         <motion.button
           variants={scaleHoverTap}
@@ -131,8 +126,7 @@ const SearchBtn = () => {
           onClick={sendLongUrl}
           type="submit"
           id="searchButton"
-          className="border md:border-2 border-current rounded-md text-blue-700 focus:outline-none"
-        >
+          className="border md:border-2 border-current rounded-md text-blue-700 focus:outline-none">
           {status === "pending" ? searchingSVG : searchSVG}
         </motion.button>
       </span>
@@ -153,8 +147,7 @@ const SearchBtn = () => {
     <motion.div
       layout
       variants={scaleIn}
-      className="text-center text-blue-900 text-base md:text-xl font-sans font-semibold py-4"
-    >
+      className="text-center text-blue-900 text-base md:text-xl font-sans font-semibold py-4">
       That url is already pretty short...try another!
     </motion.div>
   );
@@ -165,8 +158,7 @@ const SearchBtn = () => {
       className={position}
       variants={flyIn}
       initial="hidden"
-      animate="visible"
-    >
+      animate="visible">
       <AnimateSharedLayout>
         {labelComponent}
         {inputComponent}

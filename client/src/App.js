@@ -13,7 +13,6 @@ function App() {
   //https://javamastermind.com/2020/01/16/react-navigation-manage-session-history/
   //https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually
   const location = useLocation();
-  console.log(location);
 
   return (
     <div className="bg-blue-400 w-full h-full m-0 flex flex-col justify-center items-center font-roboto overflow-hidden">
